@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import images from '../assets';
-// import { NFTContext } from '../context/NFTContext';
+import { NFTContext } from '../context/NFTContext';
 import Button from './Button';
 
 const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
