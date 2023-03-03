@@ -51,3 +51,36 @@ contract NFTMarketplace is ERC721URIStorage {
       uint256 price,
       bool sold
     );
+
+    // set the owner as the msg.sender
+    // the owner of the contract is the one deploying it
+    constructor() ERC721("Metaverse Tokens", "METT") {
+      owner = payable(msg.sender);
+    }
+
+    /* Updates the listing price of the contract */
+    function updateListingPrice(uint _listingPrice) public payable {
+      require(owner == msg.sender, "Only marketplace owner can update listing price.");
+      listingPrice = _listingPrice;
+    }
+
+    /* Returns the listing price of the contract */
+    // when we deploy the contract, on the frontend we don't know how much to list it for
+    // so we call the contract and get the listing price and make sure we're sending the right amount of payment
+    function getListingPrice() public view returns (uint256) {
+      return listingPrice;
+    }
+
+    /* Mints a token and lists it in the marketplace */
+    function createToken(string memory tokenURI, uint256 price) public payable returns (uint) {
+      _tokenIds.increment();
+      // create a variable that get's the current value of the tokenIds (0, 1, 2...)
+      uint256 newTokenId = _tokenIds.current();
+      // mint the token with
+      _mint(msg.sender, newTokenId);
+      _setTokenURI(newTokenId, tokenURI);
+      createMarketItem(newTokenId, price);
+      // we've just minted the token and made it sellable
+      // now we can return the id to the client side so we can work with it
+      return newTokenId;
+    }
