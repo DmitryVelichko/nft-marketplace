@@ -84,3 +84,48 @@ contract NFTMarketplace is ERC721URIStorage {
       // now we can return the id to the client side so we can work with it
       return newTokenId;
     }
+
+    function createMarketItem(uint256 tokenId, uint256 price) private {
+      // require a certain CONDITION, in this case price greater than 0
+      require(price > 0, "Price must be at least 1 wei");
+      // require that the users sending in the transaction is sending in the correct amount
+      require(msg.value == listingPrice, "Price must be equal to listing price");
+
+      // create the mapping for the market items 
+      // payable(address(0)) is the owner. 
+      // currently there's no owner as the seller is putting it to market so it's an empty address
+      // last value  is boolean for sold, its false because we just put it so it's not sold yet
+      // this is creating the first market item
+      idToMarketItem[tokenId] =  MarketItem(
+        tokenId,
+        payable(msg.sender),
+        payable(address(this)),
+        price,
+        false
+      );
+
+      // we now want to transfer the ownership of the nft to the contract -> next buyer
+      // method available on IERC721
+      _transfer(msg.sender, address(this), tokenId);
+      emit MarketItemCreated(
+        tokenId,
+        msg.sender,
+        address(this),
+        price,
+        false
+      );
+    }
+
+    /* allows someone to resell a token they have purchased */
+    function resellToken(uint256 tokenId, uint256 price) public payable {
+      require(idToMarketItem[tokenId].owner == msg.sender, "Only item owner can perform this operation");
+      require(msg.value == listingPrice, "Price must be equal to listing price");
+      idToMarketItem[tokenId].sold = false;
+      idToMarketItem[tokenId].price = price;
+      idToMarketItem[tokenId].seller = payable(msg.sender);
+      idToMarketItem[tokenId].owner = payable(address(this));
+      _itemsSold.decrement();
+
+      _transfer(msg.sender, address(this), tokenId);
+    }
+
