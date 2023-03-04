@@ -34,3 +34,12 @@ const Modal = ({ header, body, footer, handleClose }) => {
         <div className="p-10 sm:px-4 border-t border-b dark:border-nft-black-3 border-nft-gray-1">
           {body}
         </div>
+        <div className="flexCenter p-4">
+          {footer}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Modal;
