@@ -52,3 +52,18 @@ const ResellNFT = () => {
         />
 
         {image && <img className="rounded mt-4" width="350" src={image} />}
+
+        <div className="mt-7 w-full flex justify-end">
+          <Button
+            btnName="List NFT"
+            btnType="primary"
+            classStyles="rounded-xl"
+            handleClick={resell}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ResellNFT;
