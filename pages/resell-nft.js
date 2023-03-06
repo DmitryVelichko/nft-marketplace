@@ -20,3 +20,22 @@ const ResellNFT = () => {
     setPrice(data.price);
     setImage(data.image);
   };
+
+  useEffect(() => {
+    fetchNFT();
+  }, [id]);
+
+  const resell = async () => {
+    await createSale(tokenURI, price, true, id);
+
+    router.push('/');
+  };
+
+  if (isLoadingNFT) {
+    return (
+      <div className="flexCenter" style={{ height: '51vh' }}>
+        <Loader />
+      </div>
+    );
+  }
+
