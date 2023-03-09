@@ -41,3 +41,27 @@ const MyNFTs = () => {
     }
   }, [activeSelect]);
 
+  const onHandleSearch = (value) => {
+    const filteredNfts = nfts.filter(({ name }) => name.toLowerCase().includes(value.toLowerCase()));
+
+    if (filteredNfts.length === 0) {
+      setNfts(nftsCopy);
+    } else {
+      setNfts(filteredNfts);
+    }
+  };
+
+  const onClearSearch = () => {
+    if (nfts.length && nftsCopy.length) {
+      setNfts(nftsCopy);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flexStart min-h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
