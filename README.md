@@ -1,5 +1,7 @@
 ## Full stack NFT Marketplace built with Polygon, Solidity, IPFS, & Next.js
 
+### [Live Demo](https://cryptoket.vercel.app/)
+
 ### Explore NFTs page:
 
 ![Frame 45](https://user-images.githubusercontent.com/42185328/224601757-40ec4f90-70a1-41d8-a95f-34e268045c9e.png)
